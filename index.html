@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inscrição · Construção IA na Gestão</title>
+<meta name="description" content="Inscrição e testes preparatórios da turma inaugural do Construção IA na Gestão.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0A0A0A;
+    --accent:#F5A623;
+    --paper:#FFFFFF;
+    --surface:#1A1A1A;
+    --support:#6B6B6B;
+    --line:#232323;
+    --pad:clamp(20px, 6vw, 96px);
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:Manrope, system-ui, sans-serif;
+    font-weight:400;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit}
+
+  /* ---------- brandbar ---------- */
+  .brandbar{
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding:18px var(--pad);
+    border-bottom:1px solid var(--line);
+    position:sticky;top:0;z-index:10;
+    background:rgba(10,10,10,.92);
+    backdrop-filter:blur(8px);
+  }
+  .mk{display:flex;align-items:center;gap:12px;min-width:0}
+  .nm{font-weight:800;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase}
+  .tag{
+    font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--support);white-space:nowrap;
+  }
+
+  /* ---------- layout ---------- */
+  .wrap{padding:clamp(48px,9vw,104px) var(--pad);max-width:920px}
+  .eyebrow{
+    font-size:.72rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--support);margin:0 0 22px;
+  }
+  h1{
+    font-weight:800;letter-spacing:-.035em;line-height:1.02;
+    font-size:clamp(2.4rem,7.5vw,4.6rem);margin:0 0 24px;
+  }
+  h1 em{font-style:normal;color:var(--accent)}
+  .lead{
+    font-size:clamp(1rem,2.4vw,1.2rem);color:#C9C9C9;max-width:56ch;margin:0;
+  }
+
+  /* ---------- steps ---------- */
+  .steps{border-top:1px solid var(--line);margin-top:clamp(40px,7vw,72px)}
+  .step{
+    border-bottom:1px solid var(--line);
+    padding:clamp(30px,5vw,48px) 0;
+    display:grid;grid-template-columns:auto 1fr;gap:clamp(18px,4vw,36px);
+    align-items:start;
+  }
+  .num{
+    font-weight:800;font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:-.04em;
+    color:var(--line);line-height:1;padding-top:.1em;
+  }
+  .step.on .num{color:var(--accent)}
+  .step h2{
+    font-weight:800;letter-spacing:-.025em;line-height:1.12;
+    font-size:clamp(1.35rem,3.6vw,2rem);margin:0 0 10px;
+  }
+  .step p{margin:0 0 24px;color:#B4B4B4;max-width:52ch}
+  .step.locked{opacity:.42}
+
+  /* ---------- buttons ---------- */
+  .cta{
+    display:inline-flex;align-items:center;gap:10px;
+    font-family:inherit;font-weight:800;font-size:.95rem;letter-spacing:-.01em;
+    padding:16px 26px;border-radius:0;border:1px solid var(--accent);
+    background:var(--accent);color:var(--ink);
+    text-decoration:none;cursor:pointer;
+    transition:background .16s ease,color .16s ease,transform .16s ease;
+  }
+  .cta:hover{background:#ffb739;transform:translateY(-1px)}
+  .ic{width:17px;height:17px;flex:none}
+  .cta.ghost{background:transparent;color:var(--paper);border-color:var(--line)}
+  .cta.ghost:hover{background:var(--surface);border-color:var(--support)}
+
+  .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+
+  /* ---------- test cards ---------- */
+  .tests{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-bottom:22px}
+  .test{
+    display:flex;flex-direction:column;gap:10px;
+    background:var(--surface);border:1px solid var(--line);
+    padding:24px;text-decoration:none;
+    transition:border-color .16s ease,background .16s ease;
+  }
+  .test:hover{border-color:var(--accent);background:#1f1f1f}
+  .test[aria-disabled="true"]{pointer-events:none}
+  .test .k{font-size:.68rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+  .test .t{font-weight:800;font-size:1.12rem;letter-spacing:-.02em;line-height:1.2}
+  .test .d{font-size:.88rem;color:var(--support);margin-top:auto;padding-top:6px}
+
+  .note{font-size:.84rem;color:var(--support);margin:0}
+  .done{display:none;align-items:center;gap:8px;font-size:.84rem;font-weight:800;color:var(--accent);margin:14px 0 0}
+  .step.on .done{display:flex}
+
+  footer{
+    border-top:1px solid var(--line);
+    padding:28px var(--pad) 44px;
+    color:var(--support);font-size:.76rem;letter-spacing:.06em;
+  }
+  @media (max-width:560px){
+    .step{grid-template-columns:1fr;gap:12px}
+    .num{font-size:1.3rem}
+    .cta{width:100%;justify-content:center}
+  }
+</style>
+</head>
+<body>
+
+<header class="brandbar">
+  <div class="mk">
+    <svg width="30" viewBox="0 0 642 552" fill="none" stroke="currentColor" stroke-width="12" stroke-linejoin="miter" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="6" y="6" width="105" height="180"></rect>
+      <rect x="111" y="6" width="210" height="180"></rect>
+      <rect x="321" y="6" width="210" height="180"></rect>
+      <rect x="531" y="6" width="105" height="180"></rect>
+      <rect x="6" y="186" width="210" height="180"></rect>
+      <rect x="216" y="186" width="210" height="180" fill="#F5A623"></rect>
+      <rect x="426" y="186" width="210" height="180"></rect>
+      <rect x="6" y="366" width="105" height="180"></rect>
+      <rect x="111" y="366" width="210" height="180"></rect>
+      <rect x="321" y="366" width="210" height="180"></rect>
+      <rect x="531" y="366" width="105" height="180"></rect>
+    </svg>
+    <span class="nm">Construção IA na Gestão</span>
+  </div>
+  <span class="tag">Turma Inaugural · 2026</span>
+</header>
+
+<main class="wrap">
+  <p class="eyebrow">Inscrição &amp; Testes Preparatórios</p>
+  <h1>Dois passos<br>para <em>entrar na obra</em>.</h1>
+  <p class="lead">
+    Primeiro você faz sua inscrição. Em seguida, responde os dois testes que
+    formam o seu diagnóstico inicial. Leva poucos minutos — e é o que permite
+    personalizar a sua trilha na turma.
+  </p>
+
+  <section class="steps">
+
+    <article class="step" id="step1">
+      <div class="num">01</div>
+      <div>
+        <h2>Faça sua inscrição</h2>
+        <p>Preencha o formulário de inscrição. É rápido e garante o seu lugar na lista da turma inaugural.</p>
+        <div class="row">
+          <a class="cta" id="formLink"
+             href="https://forms.clickup.com/9005194772/f/8cc0qgm-33952/SS56CJWUL5GN8YLXW9"
+             target="_blank" rel="noopener">
+            Preencher formulário de inscrição
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+          <button class="cta ghost" id="doneBtn" type="button">Já respondi o formulário</button>
+        </div>
+        <p class="done">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"><path d="m4 12 5 5L20 6"/></svg>
+          Inscrição confirmada — testes liberados abaixo.
+        </p>
+      </div>
+    </article>
+
+    <article class="step locked" id="step2">
+      <div class="num">02</div>
+      <div>
+        <h2>Responda os dois testes</h2>
+        <p>São dois instrumentos complementares. Responda com calma e com sinceridade — não existe resposta certa.</p>
+
+        <div class="tests">
+          <a class="test" href="https://login.etzme.com.br/generic_link/index/257c806b2894dcfbee9b0861637567f6" target="_blank" rel="noopener">
+            <span class="k">Teste 01</span>
+            <span class="t">Positividade e Bem-Estar</span>
+            <span class="d">Abrir teste →</span>
+          </a>
+          <a class="test" href="https://login.etzme.com.br/generic_link/index/2d98db28d83337bd77ab7aa724d35fcc" target="_blank" rel="noopener">
+            <span class="k">Teste 02</span>
+            <span class="t">Âncoras de Carreira</span>
+            <span class="d">Abrir teste →</span>
+          </a>
+        </div>
+
+        <p class="note" id="lockNote">Disponível após a inscrição no passo 01.</p>
+      </div>
+    </article>
+
+  </section>
+</main>
+
+<footer>CONSTRUÇÃO IA NA GESTÃO · MARINGÁ · 2026</footer>
+
+<script>
+(function(){
+  var KEY   = 'eventoia_inscrito';
+  var step1 = document.getElementById('step1');
+  var step2 = document.getElementById('step2');
+  var note  = document.getElementById('lockNote');
+  var tests = step2.querySelectorAll('.test');
+  var i;
+
+  function unlock(scroll){
+    step2.classList.remove('locked');
+    step1.classList.add('on');
+    step2.classList.add('on');
+    for (i = 0; i < tests.length; i++) tests[i].removeAttribute('aria-disabled');
+    note.textContent = 'Faça os dois. A ordem não importa.';
+    try { localStorage.setItem(KEY, '1'); } catch (e) {}
+    if (scroll) step2.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+
+  // estado inicial: testes bloqueados até a inscrição
+  for (i = 0; i < tests.length; i++) tests[i].setAttribute('aria-disabled','true');
+
+  try { if (localStorage.getItem(KEY) === '1') unlock(false); } catch (e) {}
+
+  document.getElementById('formLink').addEventListener('click', function(){
+    setTimeout(function(){ unlock(true); }, 900);
+  });
+
+  document.getElementById('doneBtn').addEventListener('click', function(){
+    unlock(true);
+  });
+})();
+</script>
+</body>
+</html>
