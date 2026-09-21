@@ -66,8 +66,11 @@
   /* ---------- layout ---------- */
   .wrap{
     position:relative;z-index:1;
-    padding:clamp(48px,9vw,104px) var(--pad);max-width:920px;
+    width:100%;max-width:1120px;margin-inline:auto;
+    padding:clamp(44px,7vw,88px) var(--pad);
   }
+  /* barra e rodapé seguem full-bleed, mas com o conteúdo alinhado ao .wrap */
+  .brandbar,footer{padding-inline:max(var(--pad),calc((100% - 1120px) / 2))}
   .eyebrow{
     font-size:.72rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;
     color:var(--support);margin:0 0 22px;
@@ -87,7 +90,6 @@
     list-style:none;margin:0 0 clamp(30px,5vw,40px);padding:0;
     display:grid;gap:clamp(16px,3vw,26px);
     grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
-    max-width:780px;
   }
   .info li{border-top:2px solid var(--accent);padding-top:12px}
   .info li.wide{grid-column:1/-1}
@@ -135,7 +137,22 @@
   .cta.ghost{background:transparent;color:var(--paper);border-color:var(--line)}
   .cta.ghost:hover{background:var(--surface);border-color:var(--support)}
 
-  .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+  .row{display:flex;flex-wrap:wrap;gap:14px 20px;align-items:center}
+  .alt{
+    font-size:.84rem;font-weight:700;color:var(--support);
+    text-decoration:underline;text-underline-offset:3px;
+  }
+  .alt:hover{color:var(--paper)}
+
+  /* ---------- formulário embedado ---------- */
+  .embed{
+    border:1px solid var(--line);border-top:3px solid var(--accent);
+    background:var(--paper);
+    height:clamp(540px,76vh,820px);
+    margin-bottom:24px;overflow:hidden;
+  }
+  /* o form do ClickUp tem fundo transparente: garante o branco por baixo */
+  .embed iframe{display:block;width:100%;height:100%;border:0;background:var(--paper);color-scheme:light}
 
   /* ---------- test cards ---------- */
   .tests{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-bottom:22px}
@@ -234,15 +251,24 @@
       <div class="num">01</div>
       <div>
         <h2>Faça sua inscrição</h2>
-        <p>Preencha o formulário de inscrição. É rápido e garante o seu lugar no encontro.</p>
+        <p>Preencha o formulário aqui mesmo. É rápido e garante o seu lugar no encontro.</p>
+
+        <div class="embed">
+          <iframe
+            id="formFrame"
+            title="Formulário de inscrição do encontro"
+            src="https://forms.clickup.com/9005194772/f/8cc0qgm-33952/SS56CJWUL5GN8YLXW9"
+            loading="lazy"></iframe>
+        </div>
+
         <div class="row">
-          <a class="cta" id="formLink"
+          <button class="cta" id="doneBtn" type="button">
+            Enviei minha inscrição — liberar os testes
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M5 12h13M12 5l7 7-7 7"/></svg>
+          </button>
+          <a class="alt" id="formLink"
              href="https://forms.clickup.com/9005194772/f/8cc0qgm-33952/SS56CJWUL5GN8YLXW9"
-             target="_blank" rel="noopener">
-            Preencher formulário de inscrição
-            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M7 17 17 7M9 7h8v8"/></svg>
-          </a>
-          <button class="cta ghost" id="doneBtn" type="button">Já respondi o formulário</button>
+             target="_blank" rel="noopener">Abrir o formulário em outra aba</a>
         </div>
         <p class="done">
           <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"><path d="m4 12 5 5L20 6"/></svg>
@@ -303,12 +329,22 @@
 
   try { if (localStorage.getItem(KEY) === '1') unlock(false); } catch (e) {}
 
-  document.getElementById('formLink').addEventListener('click', function(){
-    setTimeout(function(){ unlock(true); }, 900);
-  });
-
   document.getElementById('doneBtn').addEventListener('click', function(){
     unlock(true);
+  });
+
+  // quem preferir abrir em outra aba tambem libera os testes ao voltar
+  document.getElementById('formLink').addEventListener('click', function(){
+    setTimeout(function(){ unlock(false); }, 900);
+  });
+
+  // se o ClickUp sinalizar o envio, libera sozinho — sem depender do botao
+  window.addEventListener('message', function(ev){
+    var host;
+    try { host = new URL(ev.origin).hostname; } catch (e) { return; }
+    if (!/(^|\.)clickup\.com$/.test(host)) return;
+    var raw = typeof ev.data === 'string' ? ev.data : JSON.stringify(ev.data || '');
+    if (/submit|success|complete|response/i.test(raw)) unlock(true);
   });
 })();
 </script>
