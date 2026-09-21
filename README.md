@@ -1,6 +1,6 @@
 # EventoIA
 
-Landing page de inscrição da turma inaugural do **Construção IA na Gestão**.
+Landing page de inscrição do Encontro Empresarial **“O que a IA não pode fazer por você”**.
 
 Página única e estática (`index.html`), sem dependências ou build — basta abrir o
 arquivo ou publicá-lo em qualquer host estático.
