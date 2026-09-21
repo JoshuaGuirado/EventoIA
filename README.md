@@ -30,3 +30,14 @@ Mesma paleta e tipografia de [construcaoiagestao.com.br](https://construcaoiages
 - `--ink` `#0A0A0A` · `--accent` `#F5A623` · `--paper` `#FFFFFF`
 - `--surface` `#1A1A1A` · `--support` `#6B6B6B` · `--line` `#232323`
 - Tipografia Manrope (400 / 600 / 800), cantos retos, letter-spacing negativo nos títulos.
+- Fundo da catedral (`media/catedral.jpg`) no topo, com o mesmo tratamento do site
+  original: imagem a 42% de opacidade sob um véu em gradiente que funde no preto.
+  Para deixá-lo mais ou menos visível, ajuste `opacity` em `.hero-bg img`.
+
+## Rodar localmente
+
+```
+npx -y serve -l 4173 .
+```
+
+O `.claude/launch.json` já traz essa configuração pronta.
