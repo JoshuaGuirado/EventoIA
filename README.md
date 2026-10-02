@@ -23,7 +23,7 @@ sinal não é documentado, o botão continua sendo o caminho garantido.
 
 | Item | Destino |
 | --- | --- |
-| Inscrição | `forms.clickup.com/9005194772/f/8cc0qgm-33952/SS56CJWUL5GN8YLXW9` |
+| Inscrição | `forms.clickup.com/9005194772/f/8cc0qgm-34112/FRBXZ4FRWJ4JQAWY47` |
 | Teste 01 — Positividade e Bem-Estar | `login.etzme.com.br/generic_link/index/257c806b2894dcfbee9b0861637567f6` |
 | Teste 02 — Âncoras de Carreira | `login.etzme.com.br/generic_link/index/2d98db28d83337bd77ab7aa724d35fcc` |
 
