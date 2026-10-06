@@ -10,14 +10,9 @@ arquivo ou publicá-lo em qualquer host estático.
 1. **Passo 01 — Inscrição.** O formulário do ClickUp fica embedado na própria
    página (`<iframe>`), para não tirar a pessoa do site. Há também um link
    discreto para abrir em outra aba, como alternativa.
-2. **Passo 02 — Testes.** Fica bloqueado (esmaecido, links inativos) até a
-   inscrição. É liberado pelo botão *"Enviei minha inscrição"*, logo abaixo do
-   formulário. O estado fica salvo em `localStorage`, então quem volta à página
-   continua com os testes liberados.
-
-A página também escuta `postMessage` vindo de `clickup.com`: se o ClickUp
-sinalizar o envio, os testes liberam sozinhos, sem precisar do botão. Como esse
-sinal não é documentado, o botão continua sendo o caminho garantido.
+2. **Passo 02 — Testes.** Os links dos dois testes ficam sempre disponíveis,
+   logo abaixo do formulário. Não há botão de "liberar os testes": ele foi
+   removido porque confundia os participantes.
 
 ## Links usados
 
