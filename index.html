@@ -121,7 +121,6 @@
     font-size:clamp(1.35rem,3.6vw,2rem);margin:0 0 10px;
   }
   .step p{margin:0 0 24px;color:#B4B4B4;max-width:52ch}
-  .step.locked{opacity:.42}
 
   /* ---------- buttons ---------- */
   .cta{
@@ -163,14 +162,11 @@
     transition:border-color .16s ease,background .16s ease;
   }
   .test:hover{border-color:var(--accent);background:#1f1f1f}
-  .test[aria-disabled="true"]{pointer-events:none}
   .test .k{font-size:.68rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
   .test .t{font-weight:800;font-size:1.12rem;letter-spacing:-.02em;line-height:1.2}
   .test .d{font-size:.88rem;color:var(--support);margin-top:auto;padding-top:6px}
 
   .note{font-size:.84rem;color:var(--support);margin:0}
-  .done{display:none;align-items:center;gap:8px;font-size:.84rem;font-weight:800;color:var(--accent);margin:14px 0 0}
-  .step.on .done{display:flex}
 
   footer{
     position:relative;z-index:1;
@@ -262,22 +258,14 @@
         </div>
 
         <div class="row">
-          <button class="cta" id="doneBtn" type="button">
-            Enviei minha inscrição — liberar os testes
-            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M5 12h13M12 5l7 7-7 7"/></svg>
-          </button>
           <a class="alt" id="formLink"
              href="https://forms.clickup.com/9005194772/f/8cc0qgm-34112/FRBXZ4FRWJ4JQAWY47"
              target="_blank" rel="noopener">Abrir o formulário em outra aba</a>
         </div>
-        <p class="done">
-          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"><path d="m4 12 5 5L20 6"/></svg>
-          Inscrição confirmada — testes liberados abaixo.
-        </p>
       </div>
     </article>
 
-    <article class="step locked" id="step2">
+    <article class="step" id="step2">
       <div class="num">02</div>
       <div>
         <h2>Responda os dois testes</h2>
@@ -296,7 +284,7 @@
           </a>
         </div>
 
-        <p class="note" id="lockNote">Disponível após a inscrição no passo 01.</p>
+        <p class="note">Faça os dois após enviar sua inscrição. A ordem não importa.</p>
       </div>
     </article>
 
@@ -305,48 +293,5 @@
 
 <footer>ENCONTRO EMPRESARIAL · MARINGÁ · 2026</footer>
 
-<script>
-(function(){
-  var KEY   = 'eventoia_inscrito';
-  var step1 = document.getElementById('step1');
-  var step2 = document.getElementById('step2');
-  var note  = document.getElementById('lockNote');
-  var tests = step2.querySelectorAll('.test');
-  var i;
-
-  function unlock(scroll){
-    step2.classList.remove('locked');
-    step1.classList.add('on');
-    step2.classList.add('on');
-    for (i = 0; i < tests.length; i++) tests[i].removeAttribute('aria-disabled');
-    note.textContent = 'Faça os dois. A ordem não importa.';
-    try { localStorage.setItem(KEY, '1'); } catch (e) {}
-    if (scroll) step2.scrollIntoView({behavior:'smooth', block:'center'});
-  }
-
-  // estado inicial: testes bloqueados até a inscrição
-  for (i = 0; i < tests.length; i++) tests[i].setAttribute('aria-disabled','true');
-
-  try { if (localStorage.getItem(KEY) === '1') unlock(false); } catch (e) {}
-
-  document.getElementById('doneBtn').addEventListener('click', function(){
-    unlock(true);
-  });
-
-  // quem preferir abrir em outra aba tambem libera os testes ao voltar
-  document.getElementById('formLink').addEventListener('click', function(){
-    setTimeout(function(){ unlock(false); }, 900);
-  });
-
-  // se o ClickUp sinalizar o envio, libera sozinho — sem depender do botao
-  window.addEventListener('message', function(ev){
-    var host;
-    try { host = new URL(ev.origin).hostname; } catch (e) { return; }
-    if (!/(^|\.)clickup\.com$/.test(host)) return;
-    var raw = typeof ev.data === 'string' ? ev.data : JSON.stringify(ev.data || '');
-    if (/submit|success|complete|response/i.test(raw)) unlock(true);
-  });
-})();
-</script>
 </body>
 </html>
